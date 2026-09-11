@@ -1,9 +1,10 @@
-﻿{
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
   "cleanUrls": true,
   "functions": {
-    "api/*.py": {
-      "excludeFiles": "{videos,img}/**"
+    "api/**/*.py": {
+      "excludeFiles": "{videos/**,img/**}"
     }
   },
   "headers": [
