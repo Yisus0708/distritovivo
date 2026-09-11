@@ -1,0 +1,1880 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Distrito Vivo - Recorrido Bogotá</title>
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-cream: #f4f1ea;
+      --card-bg: #eae6df;
+      --text-dark: #2b2927;
+      --green-dark: #1f3323;
+      --green-accent: #2e4a33;
+      --gold-accent: #c49a45;
+      --border-color: #d8d3c9;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      font-family: 'Playfair Display', serif;
+      line-height: 1.5;
+    }
+
+    h1, h2, h3, .logo-area, nav a, .btn-main {
+      font-family: 'Cinzel', serif;
+    }
+
+    /* HEADER & NAV */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 5%;
+      border-bottom: 1px solid var(--border-color);
+      background-color: var(--bg-cream);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-area {
+      font-weight: 900;
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      color: var(--green-dark);
+      line-height: 1;
+    }
+
+    .logo-subtitle {
+      font-size: 0.65rem;
+      letter-spacing: 1.5px;
+      color: var(--gold-accent);
+      text-transform: uppercase;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 20px;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-dark);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: color 0.3s;
+      padding-bottom: 3px;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--green-accent);
+      border-bottom: 2px solid var(--gold-accent);
+    }
+
+    /* HERO SECTION */
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 70px 5%;
+      align-items: center;
+      background: linear-gradient(90deg, rgba(244,241,234,0.95) 0%, rgba(244,241,234,0.7) 50%, rgba(244,241,234,0.2) 100%), 
+                  url('img/chorrodequevedo/chorro1.jpeg') center/cover no-repeat;
+      min-height: 480px;
+      border-bottom: 2px solid var(--gold-accent);
+    }
+
+    .hero-text h1 {
+      font-size: 3rem;
+      line-height: 1.1;
+      color: var(--green-dark);
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+
+    .hero-text p {
+      font-size: 1.1rem;
+      color: #444;
+      margin-bottom: 30px;
+      max-width: 500px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .btn-main {
+      background-color: var(--green-dark);
+      color: #fff;
+      padding: 14px 28px;
+      border: 1px solid var(--gold-accent);
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .btn-main:hover {
+      background-color: var(--green-accent);
+      transform: translateY(-2px);
+    }
+
+    /* MAIN CONTAINER */
+    .container {
+      max-width: 1250px;
+      margin: 0 auto;
+      padding: 50px 20px;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 20px;
+      color: var(--green-dark);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 8px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    /* GRID RECORRIDO Y MAPA */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      padding: 25px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    #map {
+      width: 100%;
+      height: 380px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      z-index: 1;
+    }
+
+    .map-controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    .btn-sub {
+      background: var(--green-dark);
+      color: white;
+      border: none;
+      padding: 9px 16px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      border-radius: 3px;
+      font-family: 'Cinzel', serif;
+      transition: background 0.3s;
+    }
+
+    .btn-sub:hover {
+      background: var(--green-accent);
+    }
+
+    .map-progress {
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.75rem;
+      color: var(--green-dark);
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+    }
+
+    /* MARCADORES DEL MAPA */
+    .station-marker {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--green-dark);
+      color: var(--gold-accent);
+      border: 2px solid var(--gold-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cinzel', serif;
+      font-weight: bold;
+      font-size: 0.8rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+      transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+      cursor: pointer;
+    }
+
+    .station-marker.active {
+      background: var(--gold-accent);
+      color: var(--green-dark);
+      transform: scale(1.25);
+      box-shadow: 0 0 0 6px rgba(196,154,69,0.35), 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    .user-marker {
+      position: relative;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--green-dark);
+      border: 3px solid #fff;
+    }
+
+    .user-marker::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(31,51,35,0.55);
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0.6;
+      animation: userPulse 1.6s ease-out infinite;
+      pointer-events: none;
+      will-change: transform, opacity;
+    }
+
+    @keyframes userPulse {
+      0% { transform: translate(-50%, -50%) scale(1); opacity: 0.55; }
+      100% { transform: translate(-50%, -50%) scale(2.6); opacity: 0; }
+    }
+
+    /* PARADAS CARD */
+    .parada-content {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .parada-img-container {
+      width: 100%;
+      height: 200px;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .parada-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .parada-info h3 {
+      font-size: 1.25rem;
+      color: var(--green-dark);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+    }
+
+    .parada-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--green-dark);
+      color: var(--gold-accent);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-size: 0.85rem;
+      margin-right: 10px;
+      font-family: 'Cinzel', serif;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .parada-info p {
+      font-size: 0.95rem;
+      color: #444;
+      margin-bottom: 15px;
+      font-family: 'Roboto', sans-serif;
+      line-height: 1.5;
+    }
+
+    .parada-curioso {
+      background: var(--card-bg);
+      border-left: 4px solid var(--gold-accent);
+      border-radius: 4px;
+      padding: 10px 14px;
+      margin-bottom: 15px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--green-accent);
+      line-height: 1.5;
+    }
+
+    .nav-arrows {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .arrow-btn {
+      background: transparent;
+      border: 1px solid var(--green-dark);
+      color: var(--green-dark);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .arrow-btn:hover {
+      background: var(--green-dark);
+      color: white;
+    }
+
+    /* ESTILOS POPUP EN MAPA */
+    .popup-card {
+      text-align: center;
+      font-family: 'Roboto', sans-serif;
+    }
+    .popup-card img {
+      width: 100%;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: 5px;
+    }
+    .popup-card h4 {
+      font-family: 'Cinzel', serif;
+      color: var(--green-dark);
+      font-size: 0.9rem;
+      margin-bottom: 3px;
+    }
+
+    /* CLIPS AUDIOVISUALES - ESTILO CINEMATOGRÁFICO */
+    .clips-filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 25px;
+      align-items: center;
+    }
+
+    .filter-chip {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--green-dark);
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .filter-chip:hover {
+      border-color: var(--gold-accent);
+      background: #e4dfd4;
+      transform: translateY(-1px);
+    }
+
+    .filter-chip.active {
+      background: var(--green-dark);
+      color: var(--gold-accent);
+      border-color: var(--gold-accent);
+      font-weight: bold;
+      box-shadow: 0 3px 8px rgba(31,51,35,0.25);
+    }
+
+    .clips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 50px;
+    }
+
+    .clip-card {
+      background: var(--card-bg);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .clip-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 26px rgba(0,0,0,0.15);
+      border-color: var(--gold-accent);
+    }
+
+    .clip-poster-wrap {
+      position: relative;
+      width: 100%;
+      height: 185px;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .clip-poster-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.85;
+      transition: transform 0.5s ease, opacity 0.4s ease;
+    }
+
+    .clip-card:hover .clip-poster-wrap img {
+      transform: scale(1.08);
+      opacity: 0.98;
+    }
+
+    .clip-badge-location {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(31, 51, 35, 0.92);
+      color: var(--gold-accent);
+      border: 1px solid var(--gold-accent);
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.7rem;
+      font-weight: bold;
+      padding: 3px 9px;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+      z-index: 2;
+    }
+
+    .clip-badge-type {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(196, 154, 69, 0.95);
+      color: var(--green-dark);
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 900;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      z-index: 2;
+    }
+
+    .play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 48px;
+      height: 48px;
+      background: rgba(31, 51, 35, 0.88);
+      border: 2px solid var(--gold-accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.15rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      z-index: 2;
+    }
+
+    .clip-card:hover .play-btn {
+      background: var(--gold-accent);
+      color: var(--green-dark);
+      transform: translate(-50%, -50%) scale(1.18);
+      box-shadow: 0 0 18px rgba(196, 154, 69, 0.85);
+    }
+
+    .clip-card-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+
+    .clip-card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--green-dark);
+      margin-bottom: 6px;
+      line-height: 1.35;
+    }
+
+    .clip-card-desc {
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.82rem;
+      color: #4a4a4a;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+
+    .clip-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border-color);
+      padding-top: 10px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.75rem;
+    }
+
+    .clip-play-cta {
+      color: var(--green-accent);
+      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .clip-card:hover .clip-play-cta {
+      color: var(--gold-accent);
+    }
+
+    .clip-hd-pill {
+      background: #dcd6c9;
+      color: #444;
+      padding: 2px 7px;
+      border-radius: 3px;
+      font-size: 0.65rem;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+
+    /* ESTILOS CLIPS DENTRO DE LA TARJETA DE PARADA */
+    .parada-clips-box {
+      background: rgba(255,255,255,0.7);
+      border: 1px dashed var(--gold-accent);
+      border-radius: 6px;
+      padding: 12px;
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+
+    .parada-clips-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .parada-badge-count {
+      background: var(--gold-accent);
+      color: var(--green-dark);
+      font-weight: bold;
+      font-size: 0.7rem;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .parada-clips-pills {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .parada-clip-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.8rem;
+    }
+
+    .parada-clip-item:hover {
+      background: var(--green-dark);
+      color: #fff;
+      border-color: var(--gold-accent);
+      transform: translateX(4px);
+    }
+
+    .parada-clip-item:hover .parada-clip-cat {
+      color: var(--gold-accent);
+    }
+
+    .parada-clip-title {
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .parada-clip-cat {
+      font-size: 0.7rem;
+      color: #777;
+      font-style: italic;
+    }
+
+    /* GALERÍA RESPONSIVE */
+    .galeria-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 50px;
+    }
+
+    .galeria-item {
+      height: 140px;
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .galeria-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .galeria-item:hover img {
+      transform: scale(1.1);
+    }
+
+    /* COMENTARIOS */
+    .comments-section {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 50px;
+    }
+
+    .comment-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-group label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: var(--green-dark);
+    }
+
+    .form-group input, .form-group textarea {
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-family: 'Roboto', sans-serif;
+      background: #fff;
+      width: 100%;
+    }
+
+    .comments-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .comment-card {
+      background: #fff;
+      padding: 15px;
+      border-radius: 4px;
+      border-left: 4px solid var(--gold-accent);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    }
+
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .comment-author {
+      font-weight: bold;
+      color: var(--green-dark);
+    }
+
+    .comment-date {
+      font-size: 0.75rem;
+      color: #777;
+    }
+
+    .comment-text {
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.9rem;
+      color: #444;
+    }
+
+    /* FOOTER */
+    footer {
+      background-color: var(--green-dark);
+      color: #e0e0e0;
+      padding: 50px 8%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 40px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.85rem;
+      border-top: 3px solid var(--gold-accent);
+    }
+
+    footer h3, footer h4 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-accent);
+      margin-bottom: 12px;
+    }
+
+    /* MODALES */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+    }
+
+    .modal-content {
+      background: var(--bg-cream);
+      padding: 30px;
+      border-radius: 6px;
+      max-width: 700px;
+      width: 100%;
+      position: relative;
+      border: 2px solid var(--gold-accent);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--green-dark);
+      font-weight: bold;
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    /* MEDIA QUERIES PARA ADAPTABILIDAD RESPONSIVE */
+    @media (max-width: 900px) {
+      header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px 20px;
+        text-align: center;
+      }
+
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 40px 20px;
+        text-align: center;
+      }
+
+      .hero-text h1 {
+        font-size: 2rem;
+      }
+
+      .hero-text p {
+        margin: 0 auto 25px auto;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      #map {
+        height: 300px;
+      }
+
+      .comments-section {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-container">
+      <div>
+        <div class="logo-area">DISTRITO VIVO</div>
+        <div class="logo-subtitle">Descubriendo la ciudad detrás de la ficción</div>
+      </div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#" class="active">Inicio</a></li>
+        <li><a href="#recorrido">El Recorrido</a></li>
+        <li><a href="#paradas">Paradas</a></li>
+        <li><a href="#clips">Videos</a></li>
+        <li><a href="#galeria">Galería</a></li>
+        <li><a href="#comentarios">Comentarios</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>BOGOTÁ:<br>ENTRE FICCIÓN Y REALIDAD</h1>
+      <p>Un recorrido por La Candelaria y el centro histórico que revela sus historias, patrimonio y escenarios cinematográficos.</p>
+      <button class="btn-main" onclick="startRouteAnimation()">INICIAR RECORRIDO &rarr;</button>
+    </div>
+  </section>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="container">
+
+    <!-- RECORRIDO Y MAPA INTERACTIVO -->
+    <section class="grid-2" id="recorrido">
+      <div class="card">
+        <div class="section-title">
+          <span>Mapa Interactivo</span>
+          <span style="font-size: 0.7rem; color: var(--green-dark); font-family: 'Roboto', sans-serif; font-weight: bold;">📍 Recorrido Vial</span>
+        </div>
+        <div id="map"></div>
+        <div class="map-controls">
+          <button class="btn-sub" onclick="startRouteAnimation()">▶ Iniciar Recorrido</button>
+          <button class="btn-sub" style="background:#555;" onclick="resetRouteAnimation()">↺ Reiniciar</button>
+          <span class="map-progress" id="map-progress"></span>
+        </div>
+      </div>
+
+      <!-- DETALLE DE LA PARADA -->
+      <div class="card" id="paradas">
+        <div class="section-title">
+          <span>Detalle de la Parada</span>
+        </div>
+        <div class="parada-content">
+          <div class="parada-img-container" style="cursor: pointer;" onclick="openCurrentParadaVideo()" title="Clic para reproducir videoclip">
+            <img id="parada-img" src="img/chorrodequevedo/chorro1.jpeg" class="parada-img" alt="Parada">
+            <div style="position: absolute; bottom: 10px; right: 10px; background: rgba(31,51,35,0.85); color: var(--gold-accent); padding: 4px 9px; border-radius: 4px; font-size: 0.72rem; font-family: 'Roboto', sans-serif; font-weight: bold; display: flex; align-items: center; gap: 5px; border: 1px solid var(--gold-accent); box-shadow: 0 2px 6px rgba(0,0,0,0.4);">
+              <span>▶ Reproducir Clip</span>
+            </div>
+          </div>
+          <div class="parada-info">
+            <h3><span class="parada-number" id="parada-num">1</span> <span id="parada-title">Chorro de Quevedo</span></h3>
+            <p id="parada-desc">Plaza histórica considerada el origen urbano de Bogotá. Punto de encuentro universitario con arte callejero y la tradicional chicha.</p>
+
+            <p class="parada-curioso" id="parada-curioso">💡 La leyenda cuenta que aquí brotaba un manantial sagrado para los muiscas, y que en este mismo lugar se habría oficiado la primera misa tras la fundación de Bogotá en 1538.</p>
+
+            <!-- CLIPS DE ESTA PARADA (ACCESO DIRECTO) -->
+            <div class="parada-clips-box" id="parada-clips-box">
+              <div class="parada-clips-header">
+                <span style="font-family:'Cinzel',serif; font-size:0.8rem; font-weight:bold; color:var(--green-dark);">🎬 Clips Audiovisuales en esta Parada:</span>
+                <span class="parada-badge-count" id="parada-clips-count">3</span>
+              </div>
+              <div class="parada-clips-pills" id="parada-clips-pills"></div>
+            </div>
+
+            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 10px;">
+              <button class="btn-main" style="padding: 8px 16px; font-size: 0.75rem;" onclick="focusCurrentParada()">VER EN EL MAPA</button>
+              <button class="btn-main" id="btn-primary-clip" style="padding: 8px 16px; font-size: 0.75rem; background: var(--gold-accent); color: var(--green-dark); border-color: var(--green-dark);" onclick="openCurrentParadaVideo()">🎬 VER CLIP DESTACADO</button>
+              <div class="nav-arrows">
+                <button class="arrow-btn" onclick="prevParada()" aria-label="Parada anterior">&#10094;</button>
+                <button class="arrow-btn" onclick="nextParada()" aria-label="Parada siguiente">&#10095;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLIPS AUDIOVISUALES -->
+    <section id="clips" style="margin-bottom: 50px;">
+      <div class="section-title">
+        <span>🎬 Videoclips, Cine y Ficción en Bogotá</span>
+        <span style="font-size: 0.75rem; color: var(--gold-accent); font-family: 'Roboto', sans-serif; font-weight: bold; background: var(--green-dark); padding: 4px 10px; border-radius: 4px; border: 1px solid var(--gold-accent);">Cine & Música en La Candelaria</span>
+      </div>
+      <p style="font-family: 'Playfair Display', serif; font-size: 1.05rem; color: #444; margin-bottom: 20px;">
+        Explora los videoclips musicales legendarios, superproducciones de Hollywood y series internacionales grabadas en los mismos escenarios coloniales y plazoletas de nuestro recorrido patrimonial.
+      </p>
+
+      <!-- BARRA DE FILTROS INTERACTIVA -->
+      <div class="clips-filter-bar">
+        <button class="filter-chip active" onclick="filterClips('todos', this)">🌟 Todos los Clips (9)</button>
+        <button class="filter-chip" onclick="filterClips('Chorro de Quevedo', this)">📍 Chorro de Quevedo (3)</button>
+        <button class="filter-chip" onclick="filterClips('Museo de Bogotá', this)">📍 Museo de Bogotá (1)</button>
+        <button class="filter-chip" onclick="filterClips('Cinemateca', this)">📍 Cinemateca (2)</button>
+        <button class="filter-chip" onclick="filterClips('Plaza de Bolívar', this)">📍 Plaza de Bolívar (2)</button>
+        <button class="filter-chip" onclick="filterClips('Restaurante Nativa', this)">📍 Nativa / Centro (1)</button>
+      </div>
+
+      <div class="clips-grid" id="clips-container"></div>
+    </section>
+
+    <!-- GALERÍA -->
+    <section id="galeria">
+      <div class="section-title">
+        <span>📷 Galería del Recorrido</span>
+      </div>
+      <div class="galeria-grid" id="galeria-container"></div>
+    </section>
+
+    <!-- COMENTARIOS -->
+    <section id="comentarios" class="comments-section">
+      <div class="section-title">
+        <span>💬 Opiniones y Comentarios</span>
+      </div>
+      <form class="comment-form" onsubmit="addComment(event)">
+        <div class="form-group">
+          <label for="author-name">Tu Nombre:</label>
+          <input type="text" id="author-name" placeholder="Ej. Camila Rodríguez" required>
+        </div>
+        <div class="form-group">
+          <label for="comment-text">Tu Comentario:</label>
+          <textarea id="comment-text" rows="3" placeholder="¿Qué te pareció este recorrido cultural?" required></textarea>
+        </div>
+        <button type="submit" class="btn-main" style="align-self: flex-start; padding: 10px 20px; font-size: 0.8rem;">PUBLICAR COMENTARIO</button>
+      </form>
+
+      <div class="comments-list" id="comments-list">
+        <p style="font-family: Roboto, sans-serif; color: #777;">Cargando comentarios...</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <h3>DISTRITO VIVO</h3>
+      <p>Recorrido académico y cultural desarrollado para el estudio del patrimonio urbano e historias audiovisuales.</p>
+    </div>
+    <div>
+      <h4>SOBRE EL PROYECTO</h4>
+      <p>Exploración participativa en el sector histórico de La Candelaria y centro de Bogotá.</p>
+      <p>© 2026 Distrito Vivo</p>
+    </div>
+    <div>
+      <h4>CRÉDITOS</h4>
+      <p>Guía del proyecto: Equipo de Investigación</p>
+      <p>Diseño y contenidos: Equipo de desarrollo</p>
+      <p>Contacto: distrito.vivo.recorrido@gmail.com</p>
+    </div>
+  </footer>
+
+  <!-- MODAL VIDEO PLAYER -->
+  <div class="modal" id="videoModal">
+    <div class="modal-content" style="max-width: 860px; padding: 25px; background: #161b17; color: #fff; border: 2px solid var(--gold-accent); box-shadow: 0 10px 40px rgba(0,0,0,0.7);">
+      <span class="close-modal" onclick="closeModal('videoModal')" role="button" tabindex="0" aria-label="Cerrar video" style="color: var(--gold-accent); top: 12px; right: 18px;">&times;</span>
+      
+      <div style="margin-bottom: 15px; padding-right: 35px;">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap;">
+          <span id="modalVideoBadge" style="background: var(--gold-accent); color: var(--green-dark); font-size: 0.68rem; font-family: 'Roboto', sans-serif; font-weight: 900; padding: 3px 8px; border-radius: 4px; text-transform: uppercase;">VIDEOCLIP</span>
+          <span id="modalVideoLocation" style="background: rgba(255,255,255,0.15); color: #fff; font-size: 0.68rem; font-family: 'Roboto', sans-serif; padding: 3px 8px; border-radius: 4px;">Chorro de Quevedo</span>
+          <span style="margin-left: auto; background: rgba(196,154,69,0.2); color: var(--gold-accent); font-size: 0.68rem; font-family: 'Roboto', sans-serif; font-weight: bold; padding: 3px 8px; border-radius: 4px; border: 1px solid var(--gold-accent);">HD • REPRODUCCIÓN INSTANTÁNEA</span>
+        </div>
+        <h3 id="modalVideoTitle" style="color: #fff; font-size: 1.3rem; margin: 0 0 6px 0; font-family: 'Cinzel', serif; letter-spacing: 0.5px;">Reproduciendo Video</h3>
+        <p id="modalVideoDesc" style="font-family: 'Roboto', sans-serif; font-size: 0.85rem; color: #bbb; line-height: 1.4; margin: 0;"></p>
+      </div>
+
+      <div id="videoContainer" style="position: relative; width: 100%; border-radius: 6px; overflow: hidden; background: #000; box-shadow: 0 6px 20px rgba(0,0,0,0.6); border: 1px solid #333;">
+        <video id="mainVideoPlayer" controls playsinline preload="auto" style="width: 100%; display: block; max-height: 68vh; background: #000;">
+          <source id="mainVideoSource" src="" type="video/mp4">
+          Tu navegador no soporta reproducción de video HTML5.
+        </video>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL VISOR DE FOTOS GALERÍA -->
+  <div class="modal" id="imageModal">
+    <div class="modal-content" style="max-width: 800px; text-align: center; background: transparent; border: none;">
+      <span class="close-modal" style="color: #fff; font-size: 2rem; top: -10px; right: 0;" onclick="closeModal('imageModal')" role="button" tabindex="0" aria-label="Cerrar imagen">&times;</span>
+      <img id="imageModalSrc" src="" style="width: 100%; max-height: 80vh; object-fit: contain; border-radius: 6px; border: 2px solid var(--gold-accent);" alt="Vista previa">
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    const paradasData = [
+      { 
+        num: 1, 
+        title: "Chorro de Quevedo", 
+        lat: 4.5968, 
+        lng: -74.0705, 
+        desc: "Plaza histórica considerada el origen urbano de Bogotá. Punto de encuentro bohemio y universitario con arte callejero y la tradicional chicha.",
+        img: "img/chorrodequevedo/chorro1.jpeg",
+        video: "videos/clips/el_album_aterciopelados.mp4",
+        curioso: "La leyenda cuenta que aquí brotaba un manantial sagrado para los muiscas, y que en este mismo lugar se habría oficiado la primera misa tras la fundación de Bogotá en 1538.",
+        clips: [
+          {
+            title: "El Álbum — Aterciopelados",
+            type: "Videoclip Musical",
+            video: "videos/clips/el_album_aterciopelados.mp4",
+            poster: "img/clips_posters/el_album_aterciopelados.jpg",
+            desc: "Clásico del rock colombiano filmado en las calles empedradas y arquitectura colonial del Chorro de Quevedo y La Candelaria."
+          },
+          {
+            title: "Dove — Pillar Point",
+            type: "Videoclip Musical",
+            video: "videos/clips/dove_pillar_point.mp4",
+            poster: "img/clips_posters/dove_pillar_point.jpg",
+            desc: "Famoso videoclip internacional con una bailarina enmascarada danzando en la plazoleta histórica del Chorro de Quevedo."
+          },
+          {
+            title: "Ruido — La Derecha",
+            type: "Videoclip Musical",
+            video: "videos/clips/ruido_la_derecha.mp4",
+            poster: "img/clips_posters/ruido_la_derecha.jpg",
+            desc: "Hito del rock bogotano noventero con Mario Duarte capturando la bohemia nocturna y contracultural del Chorro de Quevedo."
+          }
+        ]
+      },
+      { 
+        num: 2, 
+        title: "Restaurante Nativa", 
+        lat: 4.5962, 
+        lng: -74.0718, 
+        desc: "Espacio gastronómico tradicional enfocado en rescatar los sabores autóctonos, ingredientes ancestrales y chicha del centro histórico.",
+        img: "img/restaurantenativa/nativa1.jpeg",
+        video: "videos/clips/bogota_ciudad_de_los_perdidos.mp4",
+        curioso: "Está en el corazón de La Candelaria, un barrio donde muchas casonas coloniales se han convertido en espacios gastronómicos que rescatan ingredientes prehispánicos como el maíz, la quinua y la chicha.",
+        clips: [
+          {
+            title: "Bogotá: Ciudad de los Perdidos",
+            type: "Largometraje Internacional",
+            video: "videos/clips/bogota_ciudad_de_los_perdidos.mp4",
+            poster: "img/clips_posters/bogota_ciudad_de_los_perdidos.jpg",
+            desc: "Superproducción coreana con Song Joong-ki rodada en las casonas coloniales y depósitos del centro histórico de Bogotá."
+          },
+          {
+            title: "Sabores Ancestrales — Nativa",
+            type: "Cultura Gastronómica",
+            video: "videos/restaurante_nativa.mp4",
+            poster: "img/restaurantenativa/nativa1.jpeg",
+            desc: "Recorrido culinario por la memoria y gastronomía tradicional en el corazón de La Candelaria."
+          }
+        ]
+      },
+      {
+        num: 3, 
+        title: "Museo de Bogotá - Casa Sámano",
+        lat: 4.5958,
+        lng: -74.0731,
+        desc: "Casona colonial que alberga el Museo de Bogotá, dedicado a la historia y transformación urbana de la ciudad a través de planos y objetos patrimoniales.",
+        img: "img/museobogota/museo1.jpeg",
+        video: "videos/clips/senor_matanza_mano_negra.mp4",
+        curioso: "La casa lleva el nombre de Juan de Sámano, quien residió allí al ser designado comandante general del Nuevo Reino de Granada en 1816, durante la Reconquista española.",
+        clips: [
+          {
+            title: "El Señor Matanza — Mano Negra",
+            type: "Videoclip Musical",
+            video: "videos/clips/senor_matanza_mano_negra.mp4",
+            poster: "img/clips_posters/senor_matanza_mano_negra.jpg",
+            desc: "Videoclip de culto grabado por Manu Chao y Mano Negra en los balcones y casonas coloniales vecinas a Casa Sámano."
+          },
+          {
+            title: "Memoria e Historia Urbana",
+            type: "Cápsula Patrimonial",
+            video: "videos/museo_de_bogota.mp4",
+            poster: "img/museobogota/museo1.jpeg",
+            desc: "Archivos patrimoniales y testimonios sobre la evolución y urbanismo de la capital."
+          }
+        ]
+      },
+      {
+        num: 4, 
+        title: "Plaza de Bolívar",
+        lat: 4.5981,
+        lng: -74.0760,
+        desc: "Eje político y social del país. Rodeada por la Catedral Primada, el Capitolio y el Palacio de Justicia; epicentro de históricas filmaciones.",
+        img: "img/plazadebolivar/plaza1.jpeg",
+        video: "videos/clips/narcos_palacio_de_justicia.mp4",
+        curioso: "La estatua de Simón Bolívar que preside la plaza, obra del escultor italiano Pietro Tenerani, fue inaugurada en 1846 y es considerada el primer monumento público de Bogotá.",
+        clips: [
+          {
+            title: "Narcos: Toma del Palacio de Justicia",
+            type: "Serie de Televisión",
+            video: "videos/clips/narcos_palacio_de_justicia.mp4",
+            poster: "img/clips_posters/narcos_palacio_de_justicia.jpg",
+            desc: "Recreación audiovisual de Netflix (T1:E4) sobre los trascendentales hechos ocurridos en la Plaza de Bolívar."
+          },
+          {
+            title: "Distrito Salvaje — Intro Oficial",
+            type: "Serie de Televisión",
+            video: "videos/clips/intro_distrito_salvaje.mp4",
+            poster: "img/clips_posters/intro_distrito_salvaje.jpg",
+            desc: "Cabezote de la serie de Netflix filmada en el Palacio de Liévano, el Capitolio y la Plaza de Bolívar."
+          },
+          {
+            title: "Plaza de Bolívar: Epicentro Histórico",
+            type: "Cápsula Patrimonial",
+            video: "videos/plaza_de_bolivar.mp4",
+            poster: "img/plazadebolivar/plaza1.jpeg",
+            desc: "Perspectiva institucional, social y arquitectónica de la plaza central de Bogotá."
+          }
+        ]
+      },
+      {
+        num: 5, 
+        title: "Cinemateca de Bogotá",
+        lat: 4.6015, 
+        lng: -74.0698, 
+        desc: "Sede de las artes audiovisuales de la ciudad. Espacio moderno dedicado al archivo, proyección e innovación del cine nacional e internacional.",
+        img: "img/cinemateca/cinematica1.jpeg",
+        video: "videos/clips/trailer_milla_22.mp4",
+        curioso: "Alberga uno de los archivos fílmicos más grandes de Colombia, con miles de rollos y cintas que documentan más de un siglo de historia del cine nacional.",
+        clips: [
+          {
+            title: "Milla 22 (Mile 22) — Tráiler Oficial",
+            type: "Tráiler Cinematográfico",
+            video: "videos/clips/trailer_milla_22.mp4",
+            poster: "img/clips_posters/trailer_milla_22.jpg",
+            desc: "Superproducción de Hollywood protagonizada por Mark Wahlberg y dirigida por Peter Berg, filmada en el centro de Bogotá."
+          },
+          {
+            title: "Malta — Tráiler Oficial",
+            type: "Tráiler Cinematográfico",
+            video: "videos/clips/trailer_malta.mp4",
+            poster: "img/clips_posters/trailer_malta.jpg",
+            desc: "Película de la cineasta Natalia Santa ovacionada internacionalmente y proyectada en las salas de la Cinemateca."
+          },
+          {
+            title: "Recorrido Audiovisual — Cinemateca",
+            type: "Cápsula Cultural",
+            video: "videos/cinemateca_de_bogota.mp4",
+            poster: "img/cinemateca/cinematica1.jpeg",
+            desc: "Salas de exhibición, mediateca y laboratorios de creación visual en el corazón de Bogotá."
+          }
+        ]
+      }
+    ];
+
+    // CATÁLOGO COMPLETO DE CLIPS PARA LA SECCIÓN DE VIDEOS
+    const clipsData = [
+      // 1. Chorro de Quevedo (3 VIDEOS)
+      {
+        title: "El Álbum — Aterciopelados",
+        parada: "Chorro de Quevedo",
+        type: "Videoclip Musical",
+        video: "videos/clips/el_album_aterciopelados.mp4",
+        poster: "img/clips_posters/el_album_aterciopelados.jpg",
+        desc: "El clásico más emblemático del rock alternativo colombiano, grabado en las calles adoquinadas, balcones coloniales y muros con grafiti del Chorro de Quevedo y La Candelaria."
+      },
+      {
+        title: "Dove — Pillar Point",
+        parada: "Chorro de Quevedo",
+        type: "Videoclip Musical",
+        video: "videos/clips/dove_pillar_point.mp4",
+        poster: "img/clips_posters/dove_pillar_point.jpg",
+        desc: "Aclamado videoclip internacional que se hizo viral en el mundo: una bailarina enmascarada danza con fascinante destreza entre transeúntes en la plazoleta del Chorro de Quevedo."
+      },
+      {
+        title: "Ruido — La Derecha",
+        parada: "Chorro de Quevedo",
+        type: "Videoclip Musical",
+        video: "videos/clips/ruido_la_derecha.mp4",
+        poster: "img/clips_posters/ruido_la_derecha.jpg",
+        desc: "Himno del rock bogotano de los 90 con Mario Duarte cantando por los callejones históricos y la bohemia nocturna alrededor del Chorro de Quevedo."
+      },
+
+      // 2. Restaurante Nativa / Centro
+      {
+        title: "Bogotá: Ciudad de los Perdidos",
+        parada: "Restaurante Nativa",
+        type: "Largometraje Internacional",
+        video: "videos/clips/bogota_ciudad_de_los_perdidos.mp4",
+        poster: "img/clips_posters/bogota_ciudad_de_los_perdidos.jpg",
+        desc: "Película surcoreana protagonizada por Song Joong-ki, rodada en las casonas de La Candelaria, depósitos aduaneros y calles patrimoniales del centro histórico."
+      },
+
+      // 3. Museo de Bogotá - Casa Sámano
+      {
+        title: "El Señor Matanza — Mano Negra",
+        parada: "Museo de Bogotá",
+        type: "Videoclip Musical",
+        video: "videos/clips/senor_matanza_mano_negra.mp4",
+        poster: "img/clips_posters/senor_matanza_mano_negra.jpg",
+        desc: "Grabado por Manu Chao y Mano Negra en las casonas coloniales y balcones del centro histórico vecinos al Museo de Bogotá durante su histórica visita a Colombia."
+      },
+
+      // 4. Plaza de Bolívar
+      {
+        title: "Narcos: Toma del Palacio de Justicia",
+        parada: "Plaza de Bolívar",
+        type: "Serie de Televisión",
+        video: "videos/clips/narcos_palacio_de_justicia.mp4",
+        poster: "img/clips_posters/narcos_palacio_de_justicia.jpg",
+        desc: "Recreación audiovisual de la serie de Netflix (T1:E4) sobre los trascendentales y trágicos hechos ocurridos en 1985 en la Plaza de Bolívar."
+      },
+      {
+        title: "Distrito Salvaje — Intro Oficial",
+        parada: "Plaza de Bolívar",
+        type: "Serie de Televisión",
+        video: "videos/clips/intro_distrito_salvaje.mp4",
+        poster: "img/clips_posters/intro_distrito_salvaje.jpg",
+        desc: "Cabezote de la destacada serie colombiana de Netflix rodada entre los monumentos neoclásicos de la Plaza de Bolívar y el centro institucional."
+      },
+
+      // 5. Cinemateca de Bogotá
+      {
+        title: "Milla 22 (Mile 22) — Tráiler Oficial",
+        parada: "Cinemateca",
+        type: "Tráiler Cinematográfico",
+        video: "videos/clips/trailer_milla_22.mp4",
+        poster: "img/clips_posters/trailer_milla_22.jpg",
+        desc: "Superproducción de Hollywood dirigida por Peter Berg y protagonizada por Mark Wahlberg, con persecuciones rodadas en pleno centro de Bogotá."
+      },
+      {
+        title: "Malta — Tráiler Oficial",
+        parada: "Cinemateca",
+        type: "Tráiler Cinematográfico",
+        video: "videos/clips/trailer_malta.mp4",
+        poster: "img/clips_posters/trailer_malta.jpg",
+        desc: "Largometraje de la cineasta bogotana Natalia Santa, aclamado en festivales internacionales y proyectado en la Cinemateca de Bogotá."
+      }
+    ];
+
+    // COORDENADAS VIALES DETALLADAS ENTRE CADA PARADA
+    const waypointsParada1To2 = [
+      [4.5968, -74.0705],
+      [4.5965, -74.0710],
+      [4.5962, -74.0718]
+    ];
+
+    const waypointsParada2To3 = [
+      [4.5962, -74.0718],
+      [4.5960, -74.0722],
+      [4.5958, -74.0731]
+    ];
+
+    const waypointsParada3To4 = [
+      [4.5958, -74.0731],
+      [4.5964, -74.0733],
+      [4.5971, -74.0750],
+      [4.5974, -74.0757],
+      [4.5981, -74.0760]
+    ];
+
+    const waypointsParada4To5 = [
+      [4.5981, -74.0760],
+      [4.5992, -74.0755],
+      [4.6003, -74.0738],
+      [4.6012, -74.0715],
+      [4.6015, -74.0698]
+    ];
+
+    const routeSegments = [
+      waypointsParada1To2,
+      waypointsParada2To3,
+      waypointsParada3To4,
+      waypointsParada4To5 
+    ];
+
+    const galeriaData = [
+      "img/chorrodequevedo/chorro2.jpeg",
+      "img/chorrodequevedo/chorro3.jpeg",
+      "img/chorrodequevedo/chorro4.jpeg",
+      "img/cinemateca/cinamitica3.jpeg",
+      "img/cinemateca/cinematica2.jpeg",
+      "img/museobogota/museo2.jpeg",
+      "img/museobogota/museo3.jpeg",
+      "img/museobogota/museo4.jpeg",
+      "img/museobogota/museo5.jpeg",
+      "img/plazadebolivar/plaza2.jpeg",
+      "img/plazadebolivar/plaza3.jpeg",
+      "img/plazadebolivar/plaza4.jpeg",
+      "img/plazadebolivar/plaza5.jpeg",
+      "img/plazadebolivar/palza4.jpeg",
+      "img/restaurantenativa/nativa2.jpeg",
+      "img/restaurantenativa/nativa3.jpeg",
+      "img/restaurantenativa/nativa4.jpeg",
+      "img/restaurantenativa/nativa5.jpeg"
+    ];
+
+    let map;
+    let previewRouteLine;
+    let animatedOuterLine, animatedInnerLine;
+    let currentDrawnWaypoints = [];
+    let activeUserMarker;
+    let markersList = [];
+    let currentParadaIndex = 0;
+    let isAnimating = false;
+    let routeRunId = 0;
+
+    function initMap() {
+      map = L.map('map', {
+        zoomControl: true,
+        scrollWheelZoom: false
+      }).setView([4.5980, -74.0720], 15);
+
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap &copy; CARTO',
+        maxZoom: 19
+      }).addTo(map);
+
+      drawRoutePreview();
+      initDynamicRouteLine();
+      addStationMarkers();
+
+      const bounds = L.latLngBounds(paradasData.map(p => [p.lat, p.lng]));
+      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 16 });
+
+      updateMapProgress();
+      setActiveStationMarker(0);
+      updateParadaCard(0);
+    }
+
+    // DIBUJA UNA VISTA PREVIA TENUE DE LA RUTA COMPLETA
+    function drawRoutePreview() {
+      const fullRoutePoints = routeSegments.flat();
+      previewRouteLine = L.polyline(fullRoutePoints, {
+        color: '#c49a45',
+        weight: 3,
+        opacity: 0.4,
+        dashArray: '6, 10',
+        lineCap: 'round'
+      }).addTo(map);
+    }
+
+    // INICIALIZA LÍNEAS DE RUTA VACÍAS
+    function initDynamicRouteLine() {
+      if (animatedOuterLine) map.removeLayer(animatedOuterLine);
+      if (animatedInnerLine) map.removeLayer(animatedInnerLine);
+
+      currentDrawnWaypoints = [];
+
+      animatedOuterLine = L.polyline([], {
+        color: '#c49a45',
+        weight: 8,
+        opacity: 0.95,
+        lineCap: 'round',
+        lineJoin: 'round'
+      }).addTo(map);
+
+      animatedInnerLine = L.polyline([], {
+        color: '#1f3323',
+        weight: 4,
+        opacity: 1,
+        lineCap: 'round',
+        lineJoin: 'round'
+      }).addTo(map);
+    }
+
+    function addStationMarkers() {
+      paradasData.forEach((p, idx) => {
+        const marker = L.marker([p.lat, p.lng], {
+          icon: L.divIcon({
+            className: '',
+            html: `<div class="station-marker" id="station-marker-${idx}">${p.num}</div>`,
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+          })
+        }).addTo(map);
+
+        const primaryClip = (p.clips && p.clips[0]) ? p.clips[0] : { title: p.title, video: p.video, type: "Videoclip", desc: p.desc };
+        const popupContent = `
+          <div class="popup-card">
+            <img src="${p.img}" alt="${p.title}" loading="lazy">
+            <h4>${p.num}. ${p.title}</h4>
+            <div style="display:flex; gap:6px; justify-content:center; margin-top:5px;">
+              <button onclick="showParadaDetails(${idx})" style="background:var(--green-dark); color:#fff; border:none; padding:4px 8px; border-radius:3px; cursor:pointer; font-size:0.75rem;">Detalles</button>
+              <button onclick="openVideoModal('${escapeHtml(primaryClip.title)}', '${primaryClip.video}', '${escapeHtml(primaryClip.type)}', '${escapeHtml(p.title)}', '${escapeHtml(primaryClip.desc)}')" style="background:var(--gold-accent); color:var(--green-dark); font-weight:bold; border:none; padding:4px 8px; border-radius:3px; cursor:pointer; font-size:0.75rem;">▶ Clip HD</button>
+            </div>
+          </div>
+        `;
+
+        marker.bindPopup(popupContent, { autoPan: false });
+
+        marker.on('click', () => {
+          updateParadaCard(idx);
+        });
+
+        markersList.push(marker);
+      });
+
+      activeUserMarker = L.marker([paradasData[0].lat, paradasData[0].lng], {
+        icon: L.divIcon({
+          className: '',
+          html: '<div class="user-marker"></div>',
+          iconSize: [22, 22],
+          iconAnchor: [11, 11]
+        }),
+        zIndexOffset: 1000
+      }).addTo(map);
+    }
+
+    // RESALTA LA PARADA ACTIVA Y ACTUALIZA EL PROGRESO
+    function setActiveStationMarker(index) {
+      document.querySelectorAll('.station-marker').forEach(el => el.classList.remove('active'));
+      const el = document.getElementById('station-marker-' + index);
+      if (el) el.classList.add('active');
+    }
+
+    function updateMapProgress() {
+      const el = document.getElementById('map-progress');
+      if (el) el.innerText = `Parada ${currentParadaIndex + 1} de ${paradasData.length}`;
+    }
+
+    // ANIMACIÓN CONTINUA CALLE POR CALLE CON TRAZADO DE LÍNEA EN TIEMPO REAL
+    async function startRouteAnimation() {
+      if (isAnimating) return;
+
+      // Reiniciar trazo anterior si existe (esto también invalida cualquier recorrido previo en curso)
+      resetRouteAnimation();
+      const runId = routeRunId;
+      isAnimating = true;
+
+      // 1. Redirigir suavemente al mapa
+      document.getElementById('recorrido').scrollIntoView({ behavior: 'smooth' });
+
+      // 2. Ir a la Parada 1 (Chorro de Quevedo) e iniciar la línea en su posición
+      currentParadaIndex = 0;
+      focusCurrentParada();
+
+      const startPoint = [paradasData[0].lat, paradasData[0].lng];
+      currentDrawnWaypoints.push(startPoint);
+      animatedOuterLine.setLatLngs(currentDrawnWaypoints);
+      animatedInnerLine.setLatLngs(currentDrawnWaypoints);
+
+      await sleep(2500);
+
+      // 3. Recorrer de forma animada trazando la línea progresivamente
+      for (let i = 0; i < routeSegments.length; i++) {
+        if (runId !== routeRunId) return;
+
+        const segment = routeSegments[i];
+        await animateSegmentWaypoints(segment, runId);
+
+        // El recorrido pudo haberse reiniciado o interrumpido mientras se esperaba el segmento
+        if (runId !== routeRunId) return;
+
+        currentParadaIndex = i + 1;
+        focusCurrentParada();
+        await sleep(3000);
+      }
+
+      if (runId === routeRunId) isAnimating = false;
+    }
+
+    function animateSegmentWaypoints(segmentWaypoints, runId) {
+      return new Promise((resolve) => {
+        let step = 0;
+        const totalSteps = segmentWaypoints.length;
+
+        const interval = setInterval(() => {
+          if (runId !== routeRunId || step >= totalSteps) {
+            clearInterval(interval);
+            resolve();
+            return;
+          }
+
+          const point = segmentWaypoints[step];
+          
+          // Mover el marcador del usuario
+          activeUserMarker.setLatLng(point);
+          map.panTo(point, { animate: true, duration: 0.4 });
+
+          // Añadir el punto actual a la línea trazada
+          currentDrawnWaypoints.push(point);
+          animatedOuterLine.setLatLngs(currentDrawnWaypoints);
+          animatedInnerLine.setLatLngs(currentDrawnWaypoints);
+
+          step++;
+        }, 600);
+      });
+    }
+
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function resetRouteAnimation() {
+      routeRunId++; // invalida cualquier recorrido automático en curso
+      isAnimating = false;
+      currentParadaIndex = 0;
+
+      map.stop(); // cancela cualquier flyTo/pan/zoom en curso antes de reposicionar
+      map.closePopup();
+      updateParadaCard(0);
+
+      // Limpiar la línea trazada
+      initDynamicRouteLine();
+
+      activeUserMarker.setLatLng([paradasData[0].lat, paradasData[0].lng]);
+      map.setView([4.5980, -74.0720], 15, { animate: false });
+    }
+
+    function updateParadaCard(index) {
+      currentParadaIndex = index;
+      const p = paradasData[index];
+      
+      document.getElementById('parada-num').innerText = p.num;
+      document.getElementById('parada-title').innerText = p.title;
+      document.getElementById('parada-desc').innerText = p.desc;
+      document.getElementById('parada-img').src = p.img;
+      document.getElementById('parada-curioso').innerText = '💡 ' + p.curioso;
+
+      // Actualizar listado interactivo de clips de esta parada
+      const clipsPillsContainer = document.getElementById('parada-clips-pills');
+      const clipsCountBadge = document.getElementById('parada-clips-count');
+      if (p.clips && p.clips.length > 0) {
+        clipsCountBadge.innerText = p.clips.length;
+        clipsPillsContainer.innerHTML = p.clips.map((c, i) => `
+          <div class="parada-clip-item" onclick="openVideoModal('${escapeHtml(c.title)}', '${c.video}', '${escapeHtml(c.type)}', '${escapeHtml(p.title)}', '${escapeHtml(c.desc)}')">
+            <span class="parada-clip-title">▶ <strong>${escapeHtml(c.title)}</strong></span>
+            <span class="parada-clip-cat">${escapeHtml(c.type)}</span>
+          </div>
+        `).join('');
+      } else {
+        clipsCountBadge.innerText = "0";
+        clipsPillsContainer.innerHTML = '<p style="font-size:0.75rem; color:#777;">Sin clips disponibles.</p>';
+      }
+
+      if (activeUserMarker) activeUserMarker.setLatLng([p.lat, p.lng]);
+      setActiveStationMarker(index);
+      updateMapProgress();
+    }
+
+    // MUESTRA LA TARJETA DE DETALLE (CON EL DATO CURIOSO) AL PULSAR "VER DETALLES" EN EL MAPA
+    function showParadaDetails(index) {
+      updateParadaCard(index);
+      document.getElementById('paradas').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function nextParada() {
+      routeRunId++; // detiene cualquier recorrido automático en curso
+      isAnimating = false;
+      currentParadaIndex = (currentParadaIndex + 1) % paradasData.length;
+      focusCurrentParada();
+    }
+
+    function prevParada() {
+      routeRunId++; // detiene cualquier recorrido automático en curso
+      isAnimating = false;
+      currentParadaIndex = (currentParadaIndex - 1 + paradasData.length) % paradasData.length;
+      focusCurrentParada();
+    }
+
+    function focusCurrentParada() {
+      const p = paradasData[currentParadaIndex];
+      updateParadaCard(currentParadaIndex);
+      activeUserMarker.setLatLng([p.lat, p.lng]);
+      map.closePopup();
+      map.flyTo([p.lat, p.lng], 16, { duration: 1.2 });
+      map.once('moveend', () => {
+        markersList[currentParadaIndex].openPopup();
+      });
+    }
+
+    function openCurrentParadaVideo() {
+      const p = paradasData[currentParadaIndex];
+      const primaryClip = (p.clips && p.clips.length > 0) ? p.clips[0] : { title: p.title, video: p.video, type: "Videoclip", desc: p.desc };
+      openVideoModal(primaryClip.title, primaryClip.video, primaryClip.type, p.title, primaryClip.desc);
+    }
+
+    // CLIPS DE VIDEO Y FILTRADO POR PARADA
+    let currentClipFilter = 'todos';
+
+    function filterClips(filter, btnElement) {
+      currentClipFilter = filter;
+      document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+      if (btnElement) btnElement.classList.add('active');
+      renderClips(filter);
+    }
+
+    function renderClips(filter = 'todos') {
+      const container = document.getElementById('clips-container');
+      const filtered = (filter === 'todos') 
+        ? clipsData 
+        : clipsData.filter(c => c.parada.toLowerCase().includes(filter.toLowerCase()));
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<p style="font-family: Roboto, sans-serif; color: #777; grid-column: 1/-1; text-align: center; padding: 20px;">No hay clips asociados a este filtro.</p>';
+        return;
+      }
+
+      container.innerHTML = filtered.map((c) => `
+        <div class="clip-card" onclick="openVideoModal('${escapeHtml(c.title)}', '${c.video}', '${escapeHtml(c.type)}', '${escapeHtml(c.parada)}', '${escapeHtml(c.desc)}')">
+          <div class="clip-poster-wrap">
+            <img src="${c.poster}" alt="${escapeHtml(c.title)}" loading="lazy">
+            <div class="clip-badge-location">📍 ${escapeHtml(c.parada)}</div>
+            <div class="clip-badge-type">${escapeHtml(c.type)}</div>
+            <div class="play-btn">▶</div>
+          </div>
+          <div class="clip-card-body">
+            <div>
+              <div class="clip-card-title">${escapeHtml(c.title)}</div>
+              <div class="clip-card-desc">${escapeHtml(c.desc)}</div>
+            </div>
+            <div class="clip-card-footer">
+              <span class="clip-play-cta">▶ Reproducir Clip</span>
+              <span class="clip-hd-pill">HD 720p</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // GALERÍA CON VISTA PREVIA INTERACTIVA
+    function renderGaleria() {
+      const container = document.getElementById('galeria-container');
+      container.innerHTML = galeriaData.map(imgUrl => `
+        <div class="galeria-item" onclick="openImageModal('${imgUrl}')">
+          <img src="${imgUrl}" alt="Foto Galería" loading="lazy">
+        </div>
+      `).join('');
+    }
+
+    function openImageModal(imgUrl) {
+      document.getElementById('imageModalSrc').src = imgUrl;
+      document.getElementById('imageModal').style.display = 'flex';
+      document.body.classList.add('modal-open');
+    }
+
+    // EVITA INYECCIÓN DE HTML EN CONTENIDO ESCRITO POR USUARIOS
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str ?? '';
+      return div.innerHTML;
+    }
+
+    // GESTIÓN DE COMENTARIOS CON PERSISTENCIA HÍBRIDA (BACKEND FLASK + FALLBACK LOCALSTORAGE EN VERCEL)
+    const defaultComments = [
+      {
+        author: "Prof. Alejandro Morales",
+        date: "10 de Septiembre, 2026",
+        text: "Excelente articulación entre la geografía urbana de La Candelaria y los archivos cinematográficos. La relación de los videoclips con el patrimonio vivo de Bogotá enriquece muchísimo la experiencia."
+      },
+      {
+        author: "Valentina Gómez (Estudiante)",
+        date: "10 de Septiembre, 2026",
+        text: "¡Increíble descubrir que grabaron Milla 22 tan cerca de la Cinemateca y que Manu Chao rodó El Señor Matanza en las casonas coloniales de la Casa Sámano! Gran recorrido interactivo."
+      },
+      {
+        author: "Juan David Peña",
+        date: "09 de Septiembre, 2026",
+        text: "Me encantó la experiencia en el Chorro de Quevedo con los videoclips de Aterciopelados, Pillar Point y La Derecha. Muy intuitivo el mapa y los videos cargan súper rápido."
+      }
+    ];
+
+    async function fetchComments() {
+      try {
+        const res = await fetch('/api/comments');
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.length > 0) {
+            renderCommentsList(data);
+            return;
+          }
+        }
+      } catch (err) {
+        // Modo estático o sin servidor activo
+      }
+
+      // Fallback a localStorage para despliegue estático en Vercel
+      let localData = [];
+      try {
+        const stored = localStorage.getItem('distrito_vivo_comments');
+        localData = stored ? JSON.parse(stored) : defaultComments;
+      } catch (e) {
+        localData = defaultComments;
+      }
+      renderCommentsList(localData);
+    }
+
+    function renderCommentsList(comments) {
+      const commentsList = document.getElementById('comments-list');
+      if (!comments || comments.length === 0) {
+        commentsList.innerHTML = '<p style="font-family: Roboto, sans-serif; color: #777;">Aún no hay opiniones. ¡Sé el primero!</p>';
+        return;
+      }
+
+      commentsList.innerHTML = comments.map(c => `
+        <div class="comment-card">
+          <div class="comment-header">
+            <span class="comment-author">${escapeHtml(c.author)}</span>
+            <span class="comment-date">${escapeHtml(c.date)}</span>
+          </div>
+          <p class="comment-text">${escapeHtml(c.text)}</p>
+        </div>
+      `).join('');
+    }
+
+    async function addComment(e) {
+      e.preventDefault();
+      const nameInput = document.getElementById('author-name');
+      const textInput = document.getElementById('comment-text');
+
+      const author = nameInput.value.trim();
+      const text = textInput.value.trim();
+
+      if (author && text) {
+        const now = new Date().toLocaleDateString('es-CO', { day: '2-digit', month: 'long', year: 'numeric' });
+        
+        // 1. Intento en API Flask
+        try {
+          const res = await fetch('/api/comments', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ author, text })
+          });
+          if (res.ok) {
+            nameInput.value = '';
+            textInput.value = '';
+            fetchComments();
+            return;
+          }
+        } catch (err) {
+          // Backend offline -> continúa al fallback
+        }
+
+        // 2. Fallback localStorage para Vercel
+        try {
+          let stored = [];
+          try {
+            const raw = localStorage.getItem('distrito_vivo_comments');
+            stored = raw ? JSON.parse(raw) : [...defaultComments];
+          } catch (ex) {
+            stored = [...defaultComments];
+          }
+          stored.unshift({ author, text, date: now });
+          localStorage.setItem('distrito_vivo_comments', JSON.stringify(stored));
+          nameInput.value = '';
+          textInput.value = '';
+          renderCommentsList(stored);
+        } catch (ex) {
+          console.error('Error guardando comentario:', ex);
+        }
+      }
+    }
+
+    // MODAL DE VIDEO CINEMATOGRÁFICO
+    function openVideoModal(title, url, type = "VIDEOCLIP", location = "Bogotá", desc = "") {
+      document.getElementById('modalVideoTitle').innerText = title;
+      document.getElementById('modalVideoBadge').innerText = type.toUpperCase();
+      document.getElementById('modalVideoLocation').innerText = location;
+      document.getElementById('modalVideoDesc').innerText = desc || "Escenario audiovisual del recorrido histórico y cinematográfico por Bogotá.";
+
+      const player = document.getElementById('mainVideoPlayer');
+      const source = document.getElementById('mainVideoSource');
+      source.src = url;
+      player.load();
+      player.play().catch(err => {
+        console.log('Reproducción automática diferida:', err);
+      });
+      document.getElementById('videoModal').style.display = 'flex';
+      document.body.classList.add('modal-open');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).style.display = 'none';
+      document.body.classList.remove('modal-open');
+      if (id === 'videoModal') {
+        const player = document.getElementById('mainVideoPlayer');
+        if (player) {
+          player.pause();
+          player.currentTime = 0;
+        }
+      }
+    }
+
+    // CERRAR MODAL AL HACER CLIC FUERA DEL CONTENIDO
+    document.querySelectorAll('.modal').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal(modal.id);
+      });
+    });
+
+    // CERRAR MODAL ABIERTO CON LA TECLA ESCAPE
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal').forEach(modal => {
+          if (modal.style.display === 'flex') closeModal(modal.id);
+        });
+      }
+    });
+
+    window.onload = () => {
+      initMap();
+      renderClips();
+      renderGaleria();
+      fetchComments();
+    };
+  </script>
+</body>
+</html>
