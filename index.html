@@ -869,215 +869,6 @@
         padding: 20px;
       }
     }
-
-    /* ESTILOS ESCÁNER QR INTERACTIVO */
-    .btn-nav-qr {
-      background: var(--green-dark) !important;
-      color: var(--gold-accent) !important;
-      border: 1px solid var(--gold-accent);
-      padding: 6px 14px !important;
-      border-radius: 20px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.75rem !important;
-      transition: all 0.25s ease;
-      cursor: pointer;
-    }
-    .btn-nav-qr:hover {
-      background: var(--gold-accent) !important;
-      color: var(--green-dark) !important;
-      transform: translateY(-1px);
-    }
-    .qr-modal-card {
-      max-width: 620px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 26px;
-    }
-    .qr-modal-header {
-      margin-bottom: 18px;
-      padding-right: 32px;
-    }
-    .qr-header-badge {
-      display: inline-block;
-      background: var(--gold-accent);
-      color: var(--green-dark);
-      font-size: 0.68rem;
-      font-weight: 900;
-      font-family: 'Roboto', sans-serif;
-      padding: 2px 8px;
-      border-radius: 4px;
-      letter-spacing: 1px;
-      margin-bottom: 6px;
-    }
-    .qr-modal-header h2 {
-      font-family: 'Cinzel', serif;
-      font-size: 1.45rem;
-      color: var(--green-dark);
-      margin-bottom: 4px;
-    }
-    .qr-modal-header p {
-      font-family: 'Roboto', sans-serif;
-      font-size: 0.85rem;
-      color: #555;
-      line-height: 1.4;
-    }
-    .qr-tabs {
-      display: flex;
-      gap: 8px;
-      border-bottom: 2px solid var(--border-color);
-      padding-bottom: 10px;
-      margin-bottom: 18px;
-      overflow-x: auto;
-    }
-    .qr-tab-btn {
-      background: transparent;
-      border: 1px solid var(--border-color);
-      border-radius: 20px;
-      padding: 6px 14px;
-      font-family: 'Roboto', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--text-dark);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-    .qr-tab-btn:hover {
-      border-color: var(--gold-accent);
-      color: var(--green-dark);
-    }
-    .qr-tab-btn.active {
-      background: var(--green-dark);
-      color: var(--gold-accent);
-      border-color: var(--gold-accent);
-      font-weight: bold;
-    }
-    .qr-camera-controls {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-    }
-    .qr-select {
-      flex: 1;
-      min-width: 180px;
-      padding: 8px 12px;
-      border-radius: 4px;
-      border: 1px solid var(--border-color);
-      font-family: 'Roboto', sans-serif;
-      font-size: 0.82rem;
-      background: #fff;
-      color: var(--text-dark);
-    }
-    .qr-viewport-container {
-      position: relative;
-      width: 100%;
-      min-height: 280px;
-      background: #151816;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 2px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #qr-reader {
-      width: 100% !important;
-      border: none !important;
-    }
-    #qr-reader video {
-      width: 100% !important;
-      height: 100% !important;
-      object-fit: cover !important;
-      border-radius: 6px;
-    }
-    .qr-placeholder {
-      text-align: center;
-      color: #ccc;
-      padding: 30px 15px;
-      font-family: 'Roboto', sans-serif;
-    }
-    .qr-dropzone {
-      border: 2px dashed var(--gold-accent);
-      background: rgba(255,255,255,0.7);
-      border-radius: 8px;
-      padding: 35px 20px;
-      text-align: center;
-      cursor: pointer;
-      font-family: 'Roboto', sans-serif;
-      transition: background 0.2s, border-color 0.2s;
-    }
-    .qr-dropzone:hover, .qr-dropzone.dragover {
-      background: #fdfbf7;
-      border-color: var(--green-dark);
-    }
-    .qr-result-box {
-      margin-top: 18px;
-      background: #fff;
-      border-left: 4px solid var(--gold-accent);
-      border-top: 1px solid var(--border-color);
-      border-right: 1px solid var(--border-color);
-      border-bottom: 1px solid var(--border-color);
-      border-radius: 6px;
-      padding: 15px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-      animation: qrFadeIn 0.3s ease;
-    }
-    @keyframes qrFadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .qr-result-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-    .qr-success-badge {
-      background: #e8f5e9;
-      color: #2e7d32;
-      font-family: 'Roboto', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 900;
-      padding: 3px 8px;
-      border-radius: 4px;
-      border: 1px solid #a5d6a7;
-    }
-    .qr-result-content {
-      font-family: 'Roboto', sans-serif;
-      font-size: 0.95rem;
-      color: var(--text-dark);
-      background: #faf8f5;
-      padding: 10px 12px;
-      border-radius: 4px;
-      border: 1px solid var(--border-color);
-      word-break: break-all;
-      margin-bottom: 12px;
-      max-height: 120px;
-      overflow-y: auto;
-    }
-    .qr-result-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .qr-status-message {
-      margin-top: 12px;
-      font-family: 'Roboto', sans-serif;
-      font-size: 0.8rem;
-      padding: 8px 12px;
-      border-radius: 4px;
-      background: #fff3e0;
-      color: #e65100;
-      border: 1px solid #ffe0b2;
-    }
   </style>
 </head>
 <body>
@@ -1098,7 +889,6 @@
         <li><a href="#clips">Videos</a></li>
         <li><a href="#galeria">Galería</a></li>
         <li><a href="#comentarios">Comentarios</a></li>
-        <li><a href="javascript:void(0)" onclick="openQrModal()" class="btn-nav-qr" title="Escanear código QR"><span style="font-size: 0.95rem;">📷</span> Escanear QR</a></li>
       </ul>
     </nav>
   </header>
@@ -1108,12 +898,7 @@
     <div class="hero-text">
       <h1>BOGOTÁ:<br>ENTRE FICCIÓN Y REALIDAD</h1>
       <p>Un recorrido por La Candelaria y el centro histórico que revela sus historias, patrimonio y escenarios cinematográficos.</p>
-      <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
-        <button class="btn-main" onclick="startRouteAnimation()">INICIAR RECORRIDO &rarr;</button>
-        <button class="btn-sub" onclick="openQrModal()" style="background: rgba(255,255,255,0.95); color: var(--green-dark); border: 2px solid var(--gold-accent); padding: 13px 22px; font-weight: bold; cursor: pointer; border-radius: 4px; display: inline-flex; align-items: center; gap: 8px; font-family: 'Cinzel', serif; font-size: 0.85rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: all 0.2s ease;">
-          <span>📷</span> ESCANEAR QR
-        </button>
-      </div>
+      <button class="btn-main" onclick="startRouteAnimation()">INICIAR RECORRIDO &rarr;</button>
     </div>
   </section>
 
@@ -1280,94 +1065,8 @@
     </div>
   </div>
 
-  <!-- MODAL ESCÁNER Y LECTOR QR -->
-  <div class="modal" id="qrModal">
-    <div class="modal-content qr-modal-card">
-      <span class="close-modal" onclick="closeQrModal()" role="button" tabindex="0" aria-label="Cerrar escáner">&times;</span>
-      
-      <div class="qr-modal-header">
-        <div class="qr-header-badge">LECTOR INTERACTIVO</div>
-        <h2>Escanear Código QR</h2>
-        <p>Apunta con la cámara o sube una imagen con el código QR para interactuar con el recorrido, descubrir paradas o abrir enlaces.</p>
-      </div>
-
-      <!-- TABS DE MODAL QR -->
-      <div class="qr-tabs">
-        <button type="button" class="qr-tab-btn active" id="qrTabCam" onclick="switchQrTab('camera')">
-          <span>📷</span> Cámara en Vivo
-        </button>
-        <button type="button" class="qr-tab-btn" id="qrTabFile" onclick="switchQrTab('file')">
-          <span>📁</span> Subir Imagen QR
-        </button>
-        <button type="button" class="qr-tab-btn" id="qrTabShare" onclick="switchQrTab('share')">
-          <span>📲</span> QR del Sitio
-        </button>
-      </div>
-
-      <!-- PANEL 1: CÁMARA EN VIVO -->
-      <div class="qr-panel" id="qrPanelCamera">
-        <div class="qr-camera-controls">
-          <select id="qrCameraSelect" class="qr-select">
-            <option value="">Detectando cámaras disponibles...</option>
-          </select>
-          <div style="display:flex; gap:8px;">
-            <button type="button" class="btn-sub" id="btnStartCam" onclick="startQrCamera()" style="background:var(--green-dark); color:#fff; border:1px solid var(--gold-accent);">▶ Iniciar Cámara</button>
-            <button type="button" class="btn-sub" id="btnStopCam" onclick="stopQrCamera()" style="background:#555; color:#fff; display:none;">⏹ Detener</button>
-          </div>
-        </div>
-
-        <div id="qr-camera-container" class="qr-viewport-container">
-          <div id="qr-reader"></div>
-          <div id="qr-camera-placeholder" class="qr-placeholder">
-            <div style="font-size: 2.8rem; margin-bottom: 8px;">📷</div>
-            <p style="font-size: 0.95rem; font-weight: bold; color: #fff; margin-bottom: 4px;">Cámara lista para activar</p>
-            <p style="font-size: 0.8rem; color: #aaa;">Presiona "Iniciar Cámara" para escanear en tiempo real con tu celular o cámara web.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- PANEL 2: SUBIR IMAGEN QR -->
-      <div class="qr-panel" id="qrPanelFile" style="display:none;">
-        <div class="qr-dropzone" id="qrDropzone" onclick="document.getElementById('qrFileInput').click()">
-          <input type="file" id="qrFileInput" accept="image/*" style="display:none;" onchange="handleQrFile(event)">
-          <div style="font-size: 2.8rem; margin-bottom: 8px;">🖼️</div>
-          <p style="font-size: 0.95rem; font-weight: bold; color: var(--green-dark); margin-bottom: 4px;">Selecciona o arrastra una imagen con el QR</p>
-          <p style="font-size: 0.8rem; color: #777;">Formatos soportados: JPG, PNG, WEBP, GIF</p>
-          <button type="button" class="btn-sub" style="margin-top: 14px; pointer-events: none; background: var(--green-dark); color: #fff;">Buscar Archivo...</button>
-        </div>
-        <div id="qrFilePreviewContainer" style="display:none; margin-top:15px; text-align:center;">
-          <img id="qrFilePreview" style="max-height: 180px; max-width: 100%; border-radius: 6px; border: 1px solid var(--border-color);" alt="Vista previa QR">
-        </div>
-      </div>
-
-      <!-- PANEL 3: QR PARA COMPARTIR EL SITIO -->
-      <div class="qr-panel" id="qrPanelShare" style="display:none; text-align:center; padding: 10px 0;">
-        <p style="font-size:0.88rem; color:#444; margin-bottom:15px;">Escanea este código desde tu teléfono para abrir <strong>Distrito Vivo</strong>:</p>
-        <div id="qrSiteContainer" style="display:inline-block; padding:15px; background:#fff; border-radius:8px; border:2px solid var(--gold-accent); box-shadow:0 4px 12px rgba(0,0,0,0.1);"></div>
-        <div style="margin-top:15px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
-          <button type="button" class="btn-sub" onclick="copyCurrentUrl()" id="btnCopySiteUrl">📋 Copiar Enlace Web</button>
-        </div>
-      </div>
-
-      <!-- CONTENEDOR DE RESULTADO ESCANEADO -->
-      <div id="qr-result-box" class="qr-result-box" style="display:none;">
-        <div class="qr-result-header">
-          <span class="qr-success-badge">✔ CÓDIGO DETECTADO</span>
-          <span id="qrResultType" style="font-size:0.75rem; color:#666; font-family:'Roboto',sans-serif;">Texto</span>
-        </div>
-        <div class="qr-result-content" id="qrResultText"></div>
-        <div class="qr-result-actions" id="qrResultActions"></div>
-      </div>
-
-      <!-- MENSAJES DE ESTADO / ERROR -->
-      <div id="qrStatusMsg" class="qr-status-message" style="display:none;"></div>
-    </div>
-  </div>
-
-  <!-- Leaflet JS y Librerías QR -->
+  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <script>
     const paradasData = [
@@ -1378,15 +1077,15 @@
         lng: -74.0760, 
         desc: "Eje político, social y cultural del país. Rodeada por la Catedral Primada, el Capitolio y el Palacio de Justicia; epicentro de históricas filmaciones y memoria viva de Colombia.",
         img: "img/plazadebolivar/plaza1.jpeg",
-        video: "videos/clips/señor y señora smith.mp4",
+        video: "videos/clips/bogota_ciudad_de_los_perdidos.mp4",
         curioso: "La estatua de Simón Bolívar que preside la plaza, obra del escultor italiano Pietro Tenerani, fue inaugurada en 1846 y es considerada el primer monumento público de Bogotá.",
         clips: [
           {
-            title: "Sr. y Sra. Smith (Mr. & Mrs. Smith)",
-            type: "Largometraje de Hollywood",
-            video: "videos/clips/señor y señora smith.mp4",
-            poster: "img/clips_posters/senor_y_senora_smith.jpg",
-            desc: "Famosa secuencia inicial de la comedia de acción protagonizada por Brad Pitt y Angelina Jolie ambientada en Bogotá."
+            title: "Bogotá: Tierra de Últimas Oportunidades",
+            type: "Largometraje Internacional",
+            video: "videos/clips/bogota_ciudad_de_los_perdidos.mp4",
+            poster: "img/clips_posters/bogota_ciudad_de_los_perdidos.jpg",
+            desc: "Superproducción coreana con Song Joong-ki rodada en las casonas coloniales y depósitos del centro histórico de Bogotá."
           },
           {
             title: "Narcos: Toma del Palacio de Justicia",
@@ -1418,15 +1117,15 @@
         lng: -74.0731,
         desc: "Casona colonial que alberga el Museo de Bogotá, dedicado a la historia y transformación urbana de la ciudad a través de planos, archivos y exposiciones patrimoniales.",
         img: "img/museobogota/museo1.jpeg",
-        video: "videos/clips/bogota_ciudad_de_los_perdidos.mp4",
+        video: "videos/clips/señor y señora smith.mp4",
         curioso: "La casa lleva el nombre de Juan de Sámano, quien residió allí al ser designado comandante general del Nuevo Reino de Granada en 1816, durante la Reconquista española.",
         clips: [
           {
-            title: "Bogotá: Tierra de Últimas Oportunidades",
-            type: "Largometraje Internacional",
-            video: "videos/clips/bogota_ciudad_de_los_perdidos.mp4",
-            poster: "img/clips_posters/bogota_ciudad_de_los_perdidos.jpg",
-            desc: "Superproducción coreana con Song Joong-ki rodada en las casonas coloniales y depósitos del centro histórico de Bogotá."
+            title: "Sr. y Sra. Smith (Mr. & Mrs. Smith)",
+            type: "Largometraje de Hollywood",
+            video: "videos/clips/señor y señora smith.mp4",
+            poster: "img/clips_posters/senor_y_senora_smith.jpg",
+            desc: "Famosa secuencia inicial de la comedia de acción protagonizada por Brad Pitt y Angelina Jolie ambientada en Bogotá."
           },
           {
             title: "El Señor Matanza — Mano Negra",
@@ -1527,12 +1226,12 @@
     const clipsData = [
       // 1. Plaza de Bolívar
       {
-        title: "Sr. y Sra. Smith (Mr. & Mrs. Smith)",
+        title: "Bogotá: Tierra de Últimas Oportunidades",
         parada: "Plaza de Bolívar",
-        type: "Largometraje de Hollywood",
-        video: "videos/clips/señor y señora smith.mp4",
-        poster: "img/clips_posters/senor_y_senora_smith.jpg",
-        desc: "Famosa secuencia inicial de la comedia de acción protagonizada por Brad Pitt y Angelina Jolie ambientada en Bogotá."
+        type: "Largometraje Internacional",
+        video: "videos/clips/bogota_ciudad_de_los_perdidos.mp4",
+        poster: "img/clips_posters/bogota_ciudad_de_los_perdidos.jpg",
+        desc: "Película surcoreana protagonizada por Song Joong-ki, rodada en las casonas de La Candelaria, depósitos aduaneros y calles patrimoniales del centro histórico."
       },
       {
         title: "Narcos: Toma del Palacio de Justicia",
@@ -1553,12 +1252,12 @@
 
       // 2. Museo de Bogotá - Casa Sámano
       {
-        title: "Bogotá: Tierra de Últimas Oportunidades",
+        title: "Sr. y Sra. Smith (Mr. & Mrs. Smith)",
         parada: "Museo de Bogotá",
-        type: "Largometraje Internacional",
-        video: "videos/clips/bogota_ciudad_de_los_perdidos.mp4",
-        poster: "img/clips_posters/bogota_ciudad_de_los_perdidos.jpg",
-        desc: "Película surcoreana protagonizada por Song Joong-ki, rodada en las casonas de La Candelaria, depósitos aduaneros y calles patrimoniales del centro histórico."
+        type: "Largometraje de Hollywood",
+        video: "videos/clips/señor y señora smith.mp4",
+        poster: "img/clips_posters/senor_y_senora_smith.jpg",
+        desc: "Famosa secuencia inicial de la comedia de acción protagonizada por Brad Pitt y Angelina Jolie ambientada en Bogotá."
       },
       {
         title: "El Señor Matanza — Mano Negra",
@@ -2180,420 +1879,6 @@
           player.currentTime = 0;
         }
       }
-      if (id === 'qrModal') {
-        stopQrCamera();
-      }
-    }
-
-    // ==========================================
-    // MÓDULO INTERACTIVO DE ESCÁNER Y LECTOR QR
-    // ==========================================
-    let html5QrCode = null;
-    let isCameraScanning = false;
-    let availableCameras = [];
-    let currentCameraId = null;
-    let qrSiteGenerated = false;
-
-    function openQrModal() {
-      document.getElementById('qrModal').style.display = 'flex';
-      document.body.classList.add('modal-open');
-      switchQrTab('camera');
-      initCameraList();
-    }
-
-    function closeQrModal() {
-      closeModal('qrModal');
-    }
-
-    function switchQrTab(tabName) {
-      const tabs = {
-        camera: { btn: 'qrTabCam', panel: 'qrPanelCamera' },
-        file: { btn: 'qrTabFile', panel: 'qrPanelFile' },
-        share: { btn: 'qrTabShare', panel: 'qrPanelShare' }
-      };
-
-      Object.keys(tabs).forEach(key => {
-        const item = tabs[key];
-        const btn = document.getElementById(item.btn);
-        const panel = document.getElementById(item.panel);
-        if (key === tabName) {
-          btn.classList.add('active');
-          panel.style.display = 'block';
-        } else {
-          btn.classList.remove('active');
-          panel.style.display = 'none';
-        }
-      });
-
-      if (tabName === 'share') {
-        generateSiteQrCode();
-      }
-
-      if (tabName !== 'camera' && isCameraScanning) {
-        stopQrCamera();
-      }
-    }
-
-    async function initCameraList() {
-      const select = document.getElementById('qrCameraSelect');
-      if (!select) return;
-
-      try {
-        if (typeof Html5Qrcode === 'undefined') {
-          showQrStatus('Librería QR cargando, un momento por favor...', 'info');
-          return;
-        }
-        
-        availableCameras = await Html5Qrcode.getCameras();
-        select.innerHTML = '';
-
-        if (availableCameras && availableCameras.length > 0) {
-          availableCameras.forEach((cam, idx) => {
-            const opt = document.createElement('option');
-            opt.value = cam.id;
-            opt.innerText = cam.label || `Cámara ${idx + 1}`;
-            select.appendChild(opt);
-          });
-          currentCameraId = availableCameras[0].id;
-          // Preferir cámara trasera si está disponible
-          const backCam = availableCameras.find(c => (c.label || '').toLowerCase().includes('back') || (c.label || '').toLowerCase().includes('trasera') || (c.label || '').toLowerCase().includes('environment'));
-          if (backCam) {
-            select.value = backCam.id;
-            currentCameraId = backCam.id;
-          }
-          hideQrStatus();
-        } else {
-          select.innerHTML = '<option value="">No se encontraron cámaras</option>';
-        }
-      } catch (err) {
-        select.innerHTML = '<option value="">Cámara no accesible</option>';
-        console.warn('Acceso a cámaras:', err);
-      }
-    }
-
-    document.getElementById('qrCameraSelect')?.addEventListener('change', (e) => {
-      currentCameraId = e.target.value;
-      if (isCameraScanning) {
-        stopQrCamera().then(() => startQrCamera());
-      }
-    });
-
-    async function startQrCamera() {
-      hideQrStatus();
-      hideQrResult();
-
-      if (typeof Html5Qrcode === 'undefined') {
-        showQrStatus('El módulo de escaneo se está inicializando. Intenta de nuevo en unos segundos.', 'error');
-        return;
-      }
-
-      try {
-        if (!html5QrCode) {
-          html5QrCode = new Html5Qrcode("qr-reader");
-        }
-
-        const placeholder = document.getElementById('qr-camera-placeholder');
-        if (placeholder) placeholder.style.display = 'none';
-
-        const config = {
-          fps: 10,
-          qrbox: { width: 250, height: 250 },
-          aspectRatio: 1.0
-        };
-
-        const cameraId = document.getElementById('qrCameraSelect').value || currentCameraId;
-        const cameraConfig = cameraId ? cameraId : { facingMode: "environment" };
-
-        await html5QrCode.start(
-          cameraConfig,
-          config,
-          (decodedText, decodedResult) => {
-            handleScanSuccess(decodedText, "Cámara");
-          },
-          (errorMessage) => {
-            // Escaneo continuo en progreso
-          }
-        );
-
-        isCameraScanning = true;
-        document.getElementById('btnStartCam').style.display = 'none';
-        document.getElementById('btnStopCam').style.display = 'inline-flex';
-      } catch (err) {
-        console.error('Error al iniciar cámara:', err);
-        const placeholder = document.getElementById('qr-camera-placeholder');
-        if (placeholder) placeholder.style.display = 'block';
-        showQrStatus('No se pudo acceder a la cámara. Por favor verifica los permisos de cámara en tu navegador o usa la pestaña "Subir Imagen QR".', 'error');
-      }
-    }
-
-    async function stopQrCamera() {
-      if (html5QrCode && isCameraScanning) {
-        try {
-          await html5QrCode.stop();
-        } catch (err) {
-          console.warn('Error al detener cámara:', err);
-        }
-        isCameraScanning = false;
-      }
-
-      const btnStart = document.getElementById('btnStartCam');
-      const btnStop = document.getElementById('btnStopCam');
-      const placeholder = document.getElementById('qr-camera-placeholder');
-
-      if (btnStart) btnStart.style.display = 'inline-flex';
-      if (btnStop) btnStop.style.display = 'none';
-      if (placeholder) placeholder.style.display = 'block';
-    }
-
-    async function handleQrFile(event) {
-      hideQrStatus();
-      hideQrResult();
-      const file = event.target.files && event.target.files[0];
-      if (!file) return;
-
-      // Mostrar vista previa
-      const previewImg = document.getElementById('qrFilePreview');
-      const previewContainer = document.getElementById('qrFilePreviewContainer');
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        previewImg.src = e.target.result;
-        previewContainer.style.display = 'block';
-      };
-      reader.readAsDataURL(file);
-
-      showQrStatus('Analizando imagen en busca de código QR...', 'info');
-
-      try {
-        const fileScanner = new Html5Qrcode("qr-reader");
-        const decodedText = await fileScanner.scanFile(file, true);
-        hideQrStatus();
-        handleScanSuccess(decodedText, "Imagen");
-      } catch (err) {
-        console.warn('Fallo escaneo de archivo:', err);
-        showQrStatus('No se encontró un código QR legible en esta imagen. Prueba con una imagen más nítida o con mayor iluminación.', 'error');
-      }
-    }
-
-    // Configuración de Drag & Drop para subir imagen QR
-    setTimeout(() => {
-      const dropzone = document.getElementById('qrDropzone');
-      if (dropzone) {
-        ['dragenter', 'dragover'].forEach(name => {
-          dropzone.addEventListener(name, (e) => {
-            e.preventDefault();
-            dropzone.classList.add('dragover');
-          });
-        });
-        ['dragleave', 'drop'].forEach(name => {
-          dropzone.addEventListener(name, (e) => {
-            e.preventDefault();
-            dropzone.classList.remove('dragover');
-          });
-        });
-        dropzone.addEventListener('drop', (e) => {
-          const files = e.dataTransfer.files;
-          if (files && files.length > 0) {
-            document.getElementById('qrFileInput').files = files;
-            handleQrFile({ target: { files } });
-          }
-        });
-      }
-    }, 100);
-
-    function playQrSuccessBeep() {
-      try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(880, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(1320, ctx.currentTime + 0.12);
-        gain.gain.setValueAtTime(0.2, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.16);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.16);
-      } catch (e) {
-        // audio no soportado o bloqueado
-      }
-    }
-
-    function handleScanSuccess(decodedText, origen) {
-      playQrSuccessBeep();
-
-      if (isCameraScanning) {
-        stopQrCamera();
-      }
-
-      const resultBox = document.getElementById('qr-result-box');
-      const resultType = document.getElementById('qrResultType');
-      const resultText = document.getElementById('qrResultText');
-      const resultActions = document.getElementById('qrResultActions');
-
-      resultText.innerText = decodedText;
-      resultActions.innerHTML = '';
-
-      // 1. Detectar si coincide con una parada del recorrido
-      const matchingParada = findMatchingParada(decodedText);
-      const isUrl = decodedText.startsWith('http://') || decodedText.startsWith('https://');
-
-      if (matchingParada) {
-        resultType.innerText = `Parada #${matchingParada.num} Identificada (${origen})`;
-        
-        const btnGoParada = document.createElement('button');
-        btnGoParada.className = 'btn-sub';
-        btnGoParada.style.background = 'var(--green-dark)';
-        btnGoParada.style.color = 'var(--gold-accent)';
-        btnGoParada.style.border = '1px solid var(--gold-accent)';
-        btnGoParada.innerHTML = `📍 Ver Parada: <strong>${escapeHtml(matchingParada.title)}</strong>`;
-        btnGoParada.onclick = () => {
-          closeQrModal();
-          showParadaDetails(matchingParada.index);
-        };
-        resultActions.appendChild(btnGoParada);
-      } else if (isUrl) {
-        resultType.innerText = `Enlace Web Detectado (${origen})`;
-        
-        const btnOpen = document.createElement('a');
-        btnOpen.href = decodedText;
-        btnOpen.target = '_blank';
-        btnOpen.rel = 'noopener noreferrer';
-        btnOpen.className = 'btn-sub';
-        btnOpen.style.background = 'var(--green-dark)';
-        btnOpen.style.color = '#fff';
-        btnOpen.style.textDecoration = 'none';
-        btnOpen.innerHTML = '🌐 Abrir Enlace';
-        resultActions.appendChild(btnOpen);
-      } else {
-        resultType.innerText = `Contenido de Texto (${origen})`;
-      }
-
-      // Botón copiar
-      const btnCopy = document.createElement('button');
-      btnCopy.type = 'button';
-      btnCopy.className = 'btn-sub';
-      btnCopy.style.background = '#555';
-      btnCopy.style.color = '#fff';
-      btnCopy.innerText = '📋 Copiar';
-      btnCopy.onclick = () => copyTextToClipboard(decodedText, btnCopy);
-      resultActions.appendChild(btnCopy);
-
-      // Botón escanear otro
-      const btnScanAgain = document.createElement('button');
-      btnScanAgain.type = 'button';
-      btnScanAgain.className = 'btn-sub';
-      btnScanAgain.style.background = '#fff';
-      btnScanAgain.style.color = 'var(--green-dark)';
-      btnScanAgain.style.border = '1px solid var(--gold-accent)';
-      btnScanAgain.innerText = '🔄 Escanear Otro';
-      btnScanAgain.onclick = () => {
-        hideQrResult();
-        if (document.getElementById('qrTabCam').classList.contains('active')) {
-          startQrCamera();
-        } else {
-          document.getElementById('qrFileInput').value = '';
-          document.getElementById('qrFilePreviewContainer').style.display = 'none';
-        }
-      };
-      resultActions.appendChild(btnScanAgain);
-
-      resultBox.style.display = 'block';
-    }
-
-    function findMatchingParada(text) {
-      const clean = text.toLowerCase().trim();
-      
-      // Coincidencia por número (ej. "1", "parada 1", "#1")
-      for (let i = 0; i < paradasData.length; i++) {
-        const p = paradasData[i];
-        if (clean === String(p.num) || clean === `parada ${p.num}` || clean === `#${p.num}`) {
-          return { ...p, index: i };
-        }
-      }
-
-      // Coincidencia por título
-      for (let i = 0; i < paradasData.length; i++) {
-        const p = paradasData[i];
-        const titleClean = p.title.toLowerCase();
-        if (clean.includes(titleClean) || titleClean.includes(clean)) {
-          return { ...p, index: i };
-        }
-      }
-
-      // Palabras clave específicas de paradas de Bogotá
-      if (clean.includes('bolivar')) return { ...paradasData[0], index: 0 };
-      if (clean.includes('samano') || clean.includes('museo')) return { ...paradasData[1], index: 1 };
-      if (clean.includes('nativa')) return { ...paradasData[2], index: 2 };
-      if (clean.includes('chorro') || clean.includes('quevedo')) return { ...paradasData[3], index: 3 };
-      if (clean.includes('madre')) return { ...paradasData[4], index: 4 };
-      if (clean.includes('cinemateca')) return { ...paradasData[5], index: 5 };
-
-      return null;
-    }
-
-    function showQrStatus(msg, type = 'info') {
-      const el = document.getElementById('qrStatusMsg');
-      el.innerText = msg;
-      el.style.display = 'block';
-      if (type === 'error') {
-        el.style.background = '#ffebee';
-        el.style.color = '#c62828';
-        el.style.borderColor = '#ffcdd2';
-      } else {
-        el.style.background = '#fff8e1';
-        el.style.color = '#f57f17';
-        el.style.borderColor = '#ffe082';
-      }
-    }
-
-    function hideQrStatus() {
-      const el = document.getElementById('qrStatusMsg');
-      if (el) el.style.display = 'none';
-    }
-
-    function hideQrResult() {
-      const el = document.getElementById('qr-result-box');
-      if (el) el.style.display = 'none';
-    }
-
-    function copyTextToClipboard(text, btn) {
-      navigator.clipboard.writeText(text).then(() => {
-        const orig = btn.innerText;
-        btn.innerText = '✔ ¡Copiado!';
-        setTimeout(() => { btn.innerText = orig; }, 2000);
-      }).catch(err => {
-        alert('Contenido copiado: ' + text);
-      });
-    }
-
-    function copyCurrentUrl() {
-      const btn = document.getElementById('btnCopySiteUrl');
-      navigator.clipboard.writeText(window.location.href).then(() => {
-        const orig = btn.innerText;
-        btn.innerText = '✔ ¡Enlace Copiado!';
-        setTimeout(() => { btn.innerText = orig; }, 2000);
-      });
-    }
-
-    function generateSiteQrCode() {
-      if (qrSiteGenerated) return;
-      const container = document.getElementById('qrSiteContainer');
-      if (!container) return;
-      if (typeof QRCode === 'undefined') {
-        container.innerHTML = '<p style="color:#777;">Cargando generador QR...</p>';
-        return;
-      }
-      container.innerHTML = '';
-      new QRCode(container, {
-        text: window.location.href,
-        width: 180,
-        height: 180,
-        colorDark: "#1f3323",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.M
-      });
-      qrSiteGenerated = true;
     }
 
     // CERRAR MODAL AL HACER CLIC FUERA DEL CONTENIDO
